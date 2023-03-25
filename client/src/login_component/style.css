@@ -1,0 +1,42 @@
+* {
+  margin: 5px;
+}
+
+.container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 5%;
+}
+
+.form-container {
+  border: 1px solid black;
+  padding: 15px;
+}
+
+.form-heading {
+  text-align: center;
+}
+
+.input-form {
+  margin: 12px 0;
+}
+
+.text-box {
+  padding: 3px 5px;
+  width: 100%;
+}
+
+label {
+  display: block;
+}
+
+.btn {
+  width: 100%;
+  text-align: center;
+  padding: 3px 5px;
+}
+
+.btn:hover {
+  cursor: pointer;
+}

@@ -54,7 +54,28 @@ const Register = () => {
       });
 
       const res = await data.json();
-      console.log(res);
+      // console.log(res);
+      if(res.status === 201) {
+        alert("Sign up successful!");
+        setNewUser({
+          ...newUser,
+          name : "",
+          email : "",
+          password : "",
+          confirmPassword : ""
+        })
+      }
+
+      if(res.status === 412) {
+        alert("Email already Registered");
+        setNewUser({
+          ...newUser,
+          name : "",
+          email : "",
+          password : "",
+          confirmPassword : ""
+        })
+      }
     }
   }
 

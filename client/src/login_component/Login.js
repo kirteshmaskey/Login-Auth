@@ -10,7 +10,7 @@ const Login = () => {
   });
 
   const setVal = (e) => {
-    console.log(e.target.value);
+    // console.log(e.target.value);
     const {name, value} = e.target;
 // to set users credentials
     setUser(()=> {
@@ -22,7 +22,7 @@ const Login = () => {
   }
 
 // login validation
-  const loginUser = (e) => {
+  const loginUser = async (e) => {
     e.preventDefault();
 
     const {email, password} = user;
@@ -31,6 +31,28 @@ const Login = () => {
       alert("Please Enter Email");
     }else if(password === "") {
       alert("Please Enter Password");
+    }else {
+      const data = await fetch("/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          email, password
+        })
+      });
+
+      const res = await data.json();
+      // console.log(res);
+      
+// common alert for all
+      alert(res.message);
+      setUser({
+        ...user,
+        email : "",
+        password : ""
+      })
+      
     }
   }
 

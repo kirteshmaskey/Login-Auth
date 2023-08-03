@@ -5,6 +5,7 @@ const LandingPage = () => {
   const navigate = useNavigate();
 
   const [userData, setUserData] = useState([]);
+  const [isValid, setIsValid] = useState(false);
 
 // to logout user
   const userLogout = async() => {
@@ -27,6 +28,7 @@ const LandingPage = () => {
     }else {
       // console.log("Log out sucessfully");
       localStorage.removeItem("usertoken");
+      setIsValid(false);
       navigate("/");
     }
   } 
@@ -49,6 +51,7 @@ const LandingPage = () => {
       navigate("/");
     }else {
       setUserData(data.user);
+      setIsValid(true);
       navigate("/landingpage");
     }
   }
@@ -60,15 +63,26 @@ const LandingPage = () => {
 
 
   return (
+   
     <>
-    <div style={{textAlign: "center"}}>
-        <button onClick={userLogout}>Logout</button>
-        <h1>Login Successful</h1>
-        <br />
-        <h3>Name: {userData.name}</h3>
-        <br />
-        <h3>Email: {userData.email}</h3>
-      </div>
+    {
+      isValid ? 
+        <>
+          <div style={{textAlign: "center"}}>
+            <button onClick={userLogout}>Logout</button>
+            <h1>Login Successful</h1>
+            <br />
+            <h3>Name: {userData.name}</h3>
+            <br />
+            <h3>Email: {userData.email}</h3>
+          </div>
+        </>
+      :
+        <>
+          Loading ...
+        </>
+    }
+    
     </>
   )
 }

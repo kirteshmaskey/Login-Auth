@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { NavLink, useNavigate } from 'react-router-dom'
 
 const Login = () => {
@@ -8,6 +8,7 @@ const Login = () => {
     email : "",
     password : ""
   });
+  const [isUserValid, setIsUserValid] = useState(true);
 
   const navigate = useNavigate();
 
@@ -57,12 +58,36 @@ const Login = () => {
           email : "",
           password : ""
         })
+        setIsUserValid(true);
       }else {
-        alert("Incorrect Password");
+        setIsUserValid(false);
       }
       
     }
   }
+
+  const checkPreLogin = async () => {
+    const token = localStorage.getItem("usertoken");
+
+    const res = await fetch("/validuser", {
+      method:"GET",
+      headers:{
+        "Content-Type": "application/json",
+        "authorize": token
+      }
+    });
+    
+    const data = await res.json();
+
+    if(data.status === 401 || !data) {
+    }else {
+      navigate("/landingpage");
+    }
+  }
+
+  useEffect(()=>{
+    checkPreLogin();
+  }, [])
 
 
   return (
@@ -84,7 +109,7 @@ const Login = () => {
             </div>
             
             <button className='btn' onClick={ loginUser }>Login</button>
-
+            { !isUserValid ? <p id='incorrect-password' style={ {color : 'red'} }>Password or username is invalid</p> : <p></p>}
             <p>Don't have account?<NavLink to='/register'>Create New</NavLink></p>
           </form>
         </div>
@@ -93,4 +118,4 @@ const Login = () => {
   )
 }
 
-export default Login
+export default Login;

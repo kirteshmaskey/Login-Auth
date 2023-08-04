@@ -1,24 +1,26 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from "react-router-dom";
 
+const BASE_URL = process.env.REACT_APP_BASE_URL;
+
 const LandingPage = () => {
   const navigate = useNavigate();
 
   const [userData, setUserData] = useState([]);
   const [isValid, setIsValid] = useState(false);
 
+  let token = localStorage.getItem("usertoken");
+
 // to logout user
   const userLogout = async() => {
-    let token = localStorage.getItem("usertoken");
-
-    const req = await fetch("/logout", {
+    token = localStorage.getItem("usertoken");
+    const req = await fetch(`${BASE_URL}/logout`, {
       method: "GET",
       headers:{
         "Content-Type": "application/json",
         "authorize": token,
         Accept: "application/json"
       },
-      credentials: "include"
     });
 
     const data = await req.json();
@@ -29,15 +31,16 @@ const LandingPage = () => {
       // console.log("Log out sucessfully");
       localStorage.removeItem("usertoken");
       setIsValid(false);
+      setUserData("");
       navigate("/");
     }
   } 
 
 // to validate the user
   const validate = async () => {
-    let token = localStorage.getItem("usertoken");
+    token = localStorage.getItem("usertoken");
     // console.log(token);
-    const res = await fetch("/validuser", {
+    const res = await fetch(`${BASE_URL}/validuser`, {
       method:"GET",
       headers:{
         "Content-Type": "application/json",
@@ -56,9 +59,24 @@ const LandingPage = () => {
     }
   }
   // validate();
+  const validateToken = () => {
+    token = localStorage.getItem("usertoken");
+    if(!token) {
+      console.log(token);
+      isValid(false);
+      setUserData("");
+      navigate("/");
+    }else {
+      console.log("Token Available");
+    }
+  }
+  // useEffect(()=> {
+  //   validateToken();
+  // }, [token]);
+
   useEffect(()=> {
     validate();
-  })
+  });
 
 
 

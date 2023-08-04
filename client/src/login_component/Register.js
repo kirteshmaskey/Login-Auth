@@ -1,6 +1,8 @@
 import React, { useState } from 'react'
 import { NavLink } from 'react-router-dom'
 
+const BASE_URL = process.env.REACT_APP_BASE_URL;
+
 const Register = () => {
 
 // to store new user's credentials
@@ -43,7 +45,7 @@ const Register = () => {
       alert("Password and Confirm Password do not match");
     }else {
       // alert("Registered Successfully");
-      const data = await fetch("/register", {
+      const data = await fetch(`${BASE_URL}/register`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json"

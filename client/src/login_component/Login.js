@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import { NavLink, useNavigate } from 'react-router-dom'
 
+const BASE_URL = process.env.REACT_APP_BASE_URL;
+
 const Login = () => {
 
 // to store user's login credentials
@@ -35,7 +37,7 @@ const Login = () => {
     }else if(password === "") {
       alert("Please Enter Password");
     }else {
-      const data = await fetch("/login", {
+      const data = await fetch(`${BASE_URL}/login`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json"
@@ -69,7 +71,7 @@ const Login = () => {
   const checkPreLogin = async () => {
     const token = localStorage.getItem("usertoken");
 
-    const res = await fetch("/validuser", {
+    const res = await fetch(`${BASE_URL}/validuser`, {
       method:"GET",
       headers:{
         "Content-Type": "application/json",
